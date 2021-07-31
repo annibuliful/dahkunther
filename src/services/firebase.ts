@@ -14,5 +14,8 @@ export const storage = firebase.storage;
 export const firestorePersonCollection = firestore().collection(
   DbCollection.PERSON
 );
+export const firestoreBlameColletion = firestore().collection(
+  DbCollection.BLAME_COMMENT
+);
 
 export default firebase;

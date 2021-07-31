@@ -12,6 +12,7 @@ interface IuseUploadImageOptions {
 export const useUploadImage = ({ storagePath }: IuseUploadImageOptions) => {
   const toast = useToast();
   const storageRef = storage().ref();
+  const [error, setError] = useState();
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [listImagesUrl, setListImagesUrl] = useState<string[]>([]);
   const [listFiles, setListFiles] = useState<File[]>([]);
@@ -49,6 +50,7 @@ export const useUploadImage = ({ storagePath }: IuseUploadImageOptions) => {
         description: "upload file completed",
       });
     } catch (e) {
+      setError(e);
       console.error("[Upload image] => ", e);
       toast({
         status: "error",
@@ -68,7 +70,8 @@ export const useUploadImage = ({ storagePath }: IuseUploadImageOptions) => {
       previewImages,
       listImagesUrl,
       isLoading,
+      error,
     }),
-    [previewImages, listImagesUrl, isLoading]
+    [error, previewImages, listImagesUrl, isLoading]
   );
 };

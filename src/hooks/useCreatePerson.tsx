@@ -9,6 +9,7 @@ export const useCreatePerson = () => {
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
+  const [error, setError] = useState();
   const handleCreateNewPerson = async (person: PersonData) => {
     setIsLoading(true);
     try {
@@ -22,6 +23,7 @@ export const useCreatePerson = () => {
         description: "create an imagine person completed",
       });
     } catch (e) {
+      setError(e);
       console.error("[Create person] => ", e);
       toast({
         status: "error",
@@ -32,5 +34,8 @@ export const useCreatePerson = () => {
     }
   };
 
-  return useMemo(() => ({ handleCreateNewPerson, isLoading }), [isLoading]);
+  return useMemo(
+    () => ({ handleCreateNewPerson, isLoading, error }),
+    [isLoading, error]
+  );
 };

@@ -24,7 +24,7 @@ export const useGetPersonDetail = ({
   });
 
   const [isLoading, setIsLoadling] = useState(true);
-
+  const [error, setError] = useState();
   const handleGetPersonDetail = async () => {
     try {
       const personInfo = (
@@ -40,6 +40,7 @@ export const useGetPersonDetail = ({
       }
       setPersonInfo(personInfo);
     } catch (e) {
+      setError(e);
       console.error("[Get person detail] => ", e);
       toast({
         status: "error",
@@ -54,5 +55,8 @@ export const useGetPersonDetail = ({
     if (!personId) return;
     handleGetPersonDetail();
   }, [personId]);
-  return useMemo(() => ({ personInfo, isLoading }), [personInfo, isLoading]);
+  return useMemo(
+    () => ({ personInfo, isLoading, error }),
+    [personInfo, isLoading, error]
+  );
 };
