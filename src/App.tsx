@@ -1,25 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Box } from "@chakra-ui/react";
+import React from "react";
+import { useState } from "react";
+import { ISelectValue } from "./@types";
+import { SelectBox } from "./components/SelectBox";
 
 function App() {
+  const [selectedBox, setSelectedBox] = useState("");
+  const onSelectBox = (value: ISelectValue["value"]) => {
+    if (value === selectedBox) {
+      setSelectedBox("");
+      return;
+    }
+
+    setSelectedBox(value);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Box>
+      <SelectBox
+        onSelectBox={onSelectBox}
+        label="ประยวนหัวครุท"
+        value="1"
+        isSelected={selectedBox === "1"}
+      />
+    </Box>
   );
 }
 
