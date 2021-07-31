@@ -1,0 +1,1 @@
+export { getExtFile } from "./getExtFile";

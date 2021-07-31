@@ -1,7 +1,9 @@
-import { Box, SimpleGrid } from "@chakra-ui/react";
+import { Box, Button, SimpleGrid } from "@chakra-ui/react";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { IPerson } from "../@types";
 import { SelectedPersonCard } from "../components/common/SelectedPersonCard";
+import { ROUTES } from "../constants/routes";
 
 const DEFAULT_VALUE: IPerson = {
   id: null,
@@ -62,7 +64,7 @@ const ListSelectPersons = ({
 
 export const HomePage = () => {
   const [selectedPerson, setSelectedPerson] = useState<IPerson>(DEFAULT_VALUE);
-
+  const router = useHistory();
   const onSelectPerson = (id: IPerson["id"]) => {
     // deselect person
     if (id === selectedPerson.id) {
@@ -76,8 +78,13 @@ export const HomePage = () => {
     setSelectedPerson(selectedPersonInfo ?? DEFAULT_VALUE);
   };
 
+  const handleClikToAddPersonPage = () => router.push(ROUTES.ADD_PERSON);
+
   return (
-    <Box>
+    <Box mt={4}>
+      <Button variant="primary" onClick={handleClikToAddPersonPage}>
+        Create new person
+      </Button>
       <ListSelectPersons
         listPersons={mockListPerson}
         onSelectPerson={onSelectPerson}

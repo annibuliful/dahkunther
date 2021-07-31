@@ -9,3 +9,5 @@ export interface IPerson {
   name: string | null;
   blameCount: number;
 }
+
+export type PersonData = Omit<IPerson, "id">;
