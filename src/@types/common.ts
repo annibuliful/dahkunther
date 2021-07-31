@@ -5,6 +5,7 @@ export interface ISelectValue {
 
 export interface IPerson {
   id: string | null;
+  image?: string;
   name: string | null;
   blameCount: number;
 }

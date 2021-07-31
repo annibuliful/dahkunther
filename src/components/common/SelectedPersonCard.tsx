@@ -1,17 +1,19 @@
-import { Box, BoxProps, Text } from "@chakra-ui/react";
+import { Box, Text, Avatar } from "@chakra-ui/react";
 import React from "react";
 import { IPerson, ISelectValue } from "../../@types";
+import { BorderColor, TextColor } from "../../@types/style";
 
 interface ISelectBoxProps extends IPerson {
   onSelectBox: (value: ISelectValue["value"]) => void;
   isSelected?: boolean;
 }
-type BorderColor = BoxProps["borderColor"];
+
 export const SelectedPersonCard = ({
   isSelected = false,
   id,
   name,
   blameCount,
+  image,
   onSelectBox,
 }: ISelectBoxProps) => {
   const handleClickBox = () => {
@@ -19,21 +21,32 @@ export const SelectedPersonCard = ({
   };
 
   const borderColor: BorderColor = isSelected ? "blue.500" : "gray.300";
+  const nameColor: TextColor = isSelected ? "black" : "gray.600";
+  const blameCountColor: TextColor = isSelected ? "gray.500" : "gray.400";
 
   return (
     <Box
       cursor="pointer"
-      p={4}
+      p={2}
       m={4}
       borderRadius="10px"
       border="2px solid"
       borderColor={borderColor}
       onClick={handleClickBox}
     >
-      <Text fontWeight="bold" textAlign="center">
+      <Avatar
+        name={name as string}
+        src={image}
+        my={4}
+        display="block"
+        mx="auto"
+        size="lg"
+      />
+
+      <Text fontWeight="bold" textAlign="center" color={nameColor}>
         {name}
       </Text>
-      <Text color="gray.400" textAlign="center">
+      <Text color={blameCountColor} textAlign="center">
         {blameCount}
       </Text>
     </Box>
