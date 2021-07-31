@@ -35,15 +35,12 @@ export const useGetListPersons = () => {
           const changeType = docChange.type;
 
           if (changeType === "added") {
-            console.log("New city: ", personData);
             setListPersons((prev) =>
               uniqBy([...prev, personData], (person) => person.id)
             );
-            return;
           }
 
           if (changeType === "modified") {
-            console.log("Modified city: ", personData);
             const newPersonData = [...listPersons];
             const personIndex = newPersonData.findIndex(
               (person) => (person.id = personData.id)
@@ -51,6 +48,11 @@ export const useGetListPersons = () => {
             newPersonData[personIndex] = personData;
             setListPersons(newPersonData);
           }
+
+          console.debug("[Subscribe Person collection] => ", {
+            changeType,
+            personData,
+          });
         });
       }
     );
