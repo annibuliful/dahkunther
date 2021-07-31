@@ -15,7 +15,7 @@ export interface IBlameMessage {
   personId: string;
   imagesUrl: string[];
   message: string;
-  voiceUrl: string;
+  voiceUrl: string | null;
 }
 
 export type PersonData = Omit<IPerson, "id">;

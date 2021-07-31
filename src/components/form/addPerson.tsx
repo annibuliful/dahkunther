@@ -1,5 +1,6 @@
 import { Box, Input, Avatar, Button } from "@chakra-ui/react";
 import { ChangeEvent, useState } from "react";
+import { MdPhotoCamera } from "react-icons/md";
 import { PersonData } from "../../@types";
 import { StoragePath } from "../../constants";
 import { useCreatePerson } from "../../hooks/useCreatePerson";
@@ -46,6 +47,7 @@ export const AddPersonForm = ({
   };
 
   const personImagePreviewUrl = previewImages?.[0];
+  const isDisableCreateButton = personName.length < 1;
 
   return (
     <Box>
@@ -58,7 +60,10 @@ export const AddPersonForm = ({
         size="lg"
       />
 
-      <UploadInput handleChangeUploadImage={handleChangePersonImage} />
+      <UploadInput
+        handleChangeUploadImage={handleChangePersonImage}
+        icon={MdPhotoCamera}
+      />
       <Input onChange={handleChangePersonName} mt={4} placeholder="name" />
       <Button
         isLoading={isLoading}
@@ -67,6 +72,7 @@ export const AddPersonForm = ({
         display="block"
         mx="auto"
         my={4}
+        isDisabled={isDisableCreateButton}
       >
         Create
       </Button>

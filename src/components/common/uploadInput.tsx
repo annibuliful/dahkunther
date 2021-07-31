@@ -1,13 +1,16 @@
 import { Box, Center, Input, Icon } from "@chakra-ui/react";
 import { ChangeEvent } from "react";
+import { IconType } from "react-icons";
 import { MdPhotoCamera } from "react-icons/md";
 
 interface IUploadInputProps {
   handleChangeUploadImage: (e: ChangeEvent<HTMLInputElement>) => void;
+  icon: IconType;
   isMultiple?: boolean;
 }
 export const UploadInput = ({
   handleChangeUploadImage,
+  icon,
   isMultiple = false,
 }: IUploadInputProps) => {
   return (
@@ -29,7 +32,7 @@ export const UploadInput = ({
             hidden
             multiple={isMultiple}
           />
-          <Icon as={MdPhotoCamera} w={8} h={8} />
+          <Icon as={icon} w={8} h={8} />
         </Center>
       </label>
     </Box>
