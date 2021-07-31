@@ -9,7 +9,7 @@ import { getExtFile } from "../utils";
 interface IuseUploadImageOptions {
   storagePath: StoragePath;
 }
-export const useUploadFile = ({ storagePath }: IuseUploadImageOptions) => {
+export const useUploadImage = ({ storagePath }: IuseUploadImageOptions) => {
   const toast = useToast();
   const storageRef = storage().ref();
   const [previewImages, setPreviewImages] = useState<string[]>([]);
@@ -27,6 +27,7 @@ export const useUploadFile = ({ storagePath }: IuseUploadImageOptions) => {
     setIsloading(true);
 
     const listChildRefs: string[] = [];
+    const listPublicImageUrl: string[] = [];
     try {
       const listUploadCall = listFiles.map((file) => {
         const filename = `${nanoid()}.${getExtFile(file.name)}`;
@@ -41,6 +42,7 @@ export const useUploadFile = ({ storagePath }: IuseUploadImageOptions) => {
       );
 
       const listUrls: string[] = await Promise.all(listGetUrlCall);
+      listPublicImageUrl.push(...listUrls);
       setListImagesUrl(listUrls);
       toast({
         status: "success",
@@ -56,7 +58,7 @@ export const useUploadFile = ({ storagePath }: IuseUploadImageOptions) => {
       setIsloading(false);
     }
 
-    return listChildRefs;
+    return listPublicImageUrl;
   };
 
   return useMemo(

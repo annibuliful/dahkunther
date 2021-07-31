@@ -3,7 +3,7 @@ import { ChangeEvent, useState } from "react";
 import { PersonData } from "../../@types";
 import { StoragePath } from "../../constants";
 import { useCreatePerson } from "../../hooks/useCreatePerson";
-import { useUploadFile } from "../../hooks/useUploadFile";
+import { useUploadImage } from "../../hooks/useUploadImage";
 import { MdPhotoCamera } from "react-icons/md";
 
 interface IAddPersonFormProps {
@@ -13,22 +13,18 @@ interface IAddPersonFormProps {
 export const AddPersonForm = ({
   onTakeActionAfterCreate,
 }: IAddPersonFormProps) => {
-  const [personData, setPersonData] = useState<PersonData>({
-    name: "",
-    image: "",
-    blameCount: 0,
-  });
+  const [personName, setPersonName] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const { handleSetPreviewImages, handleUploadImage, previewImages } =
-    useUploadFile({
+    useUploadImage({
       storagePath: StoragePath.PERSON,
     });
   const { handleCreateNewPerson } = useCreatePerson();
 
-  const handleChangePersonData =
-    (field: keyof PersonData) => (e: ChangeEvent<HTMLInputElement>) => {
-      setPersonData((prev) => ({ ...prev, [field]: e.target.value }));
-    };
+  const handleChangePersonName = (e: ChangeEvent<HTMLInputElement>) => {
+    setPersonName(e.target.value);
+  };
 
   const handleChangePersonImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -36,8 +32,16 @@ export const AddPersonForm = ({
     handleSetPreviewImages(Array.from(e.target.files));
   };
   const handleClickCreateNewPerson = async () => {
+    setIsLoading(true);
     const personImage = (await handleUploadImage())?.[0] ?? null;
-    await handleCreateNewPerson({ ...personData, image: personImage });
+    const personData = {
+      name: personName,
+      image: personImage,
+      blameCount: 0,
+    };
+
+    await handleCreateNewPerson(personData);
+    setIsLoading(false);
     onTakeActionAfterCreate(personData);
   };
 
@@ -46,7 +50,7 @@ export const AddPersonForm = ({
   return (
     <Box>
       <Avatar
-        name={personData.name as string}
+        name={personName}
         src={personImagePreviewUrl}
         my={4}
         display="block"
@@ -75,12 +79,9 @@ export const AddPersonForm = ({
           </Center>
         </label>
       </Box>
-      <Input
-        onChange={handleChangePersonData("name")}
-        mt={4}
-        placeholder="name"
-      />
+      <Input onChange={handleChangePersonName} mt={4} placeholder="name" />
       <Button
+        isLoading={isLoading}
         onClick={handleClickCreateNewPerson}
         variant="primary"
         display="block"

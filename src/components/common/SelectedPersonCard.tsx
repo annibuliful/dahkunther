@@ -1,4 +1,4 @@
-import { Box, Text, Avatar } from "@chakra-ui/react";
+import { Box, Text, Avatar, BoxProps } from "@chakra-ui/react";
 import React from "react";
 import { IPerson, ISelectValue } from "../../@types";
 import { BorderColor, TextColor } from "../../@types/style";
@@ -15,7 +15,8 @@ export const SelectedPersonCard = ({
   blameCount,
   image,
   onSelectBox,
-}: ISelectBoxProps) => {
+  ...boxStyle
+}: ISelectBoxProps & BoxProps) => {
   const handleClickBox = () => {
     onSelectBox(id as string);
   };
@@ -26,6 +27,7 @@ export const SelectedPersonCard = ({
 
   return (
     <Box
+      {...boxStyle}
       cursor="pointer"
       p={2}
       m={4}

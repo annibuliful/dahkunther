@@ -1,3 +1,4 @@
+import { uniqBy } from "lodash";
 import { useEffect } from "react";
 import { useMemo } from "react";
 import { useState } from "react";
@@ -35,7 +36,9 @@ export const useGetListPersons = () => {
 
           if (changeType === "added") {
             console.log("New city: ", personData);
-            setListPersons((prev) => [...prev, personData]);
+            setListPersons((prev) =>
+              uniqBy([...prev, personData], (person) => person.id)
+            );
             return;
           }
 

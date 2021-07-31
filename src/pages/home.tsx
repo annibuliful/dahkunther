@@ -1,14 +1,14 @@
 import {
   Box,
   Button,
+  Flex,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
-  SimpleGrid,
+  Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -16,7 +16,7 @@ import { useHistory } from "react-router-dom";
 import { IPerson } from "../@types";
 import { SelectedPersonCard } from "../components/common/SelectedPersonCard";
 import { AddPersonForm } from "../components/form/addPerson";
-import { ROUTES } from "../constants/routes";
+import { useGetListPersons } from "../hooks/useGetListPersons";
 
 const DEFAULT_VALUE: IPerson = {
   id: null,
@@ -56,11 +56,12 @@ const ListSelectPersons = ({
   selectedPerson,
 }: IListSelectPersonsProps) => {
   return (
-    <SimpleGrid columns={[1, 3, 3]}>
+    <Flex justifyContent="space-evenly" alignItems="center">
       {listPersons.map((person) => {
         const isSelected = selectedPerson.id === person.id;
         return (
           <SelectedPersonCard
+            width="25%"
             key={person.id}
             onSelectBox={onSelectPerson}
             name={person.name as string}
@@ -71,7 +72,7 @@ const ListSelectPersons = ({
           />
         );
       })}
-    </SimpleGrid>
+    </Flex>
   );
 };
 
@@ -83,6 +84,8 @@ export const HomePage = () => {
   } = useDisclosure();
   const [selectedPerson, setSelectedPerson] = useState<IPerson>(DEFAULT_VALUE);
 
+  const { listPersons, isLoading } = useGetListPersons();
+  console.log("listPersons", listPersons);
   const onSelectPerson = (id: IPerson["id"]) => {
     // deselect person
     if (id === selectedPerson.id) {
@@ -116,11 +119,16 @@ export const HomePage = () => {
       >
         Create new person
       </Button>
-      <ListSelectPersons
-        listPersons={mockListPerson}
-        onSelectPerson={onSelectPerson}
-        selectedPerson={selectedPerson}
-      />
+
+      {isLoading ? (
+        <Spinner display="block" mx="auto" />
+      ) : (
+        <ListSelectPersons
+          listPersons={listPersons}
+          onSelectPerson={onSelectPerson}
+          selectedPerson={selectedPerson}
+        />
+      )}
     </Box>
   );
 };
