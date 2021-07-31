@@ -1,4 +1,4 @@
-import { uniqBy } from "lodash";
+import { orderBy, uniqBy } from "lodash";
 import { useEffect } from "react";
 import { useMemo } from "react";
 import { useState } from "react";
@@ -11,6 +11,7 @@ export const useGetListPersons = () => {
   const [error, setError] = useState();
 
   const handleGetListPersons = async () => {
+    setIsLoading(true);
     try {
       const listPersonsData: IPerson[] = [];
       const callFirestore = await firestorePersonCollection.get();
@@ -36,7 +37,7 @@ export const useGetListPersons = () => {
 
           if (changeType === "added") {
             setListPersons((prev) =>
-              uniqBy([...prev, personData], (person) => person.id)
+              uniqBy([personData, ...prev], (person) => person.id)
             );
           }
 
@@ -46,7 +47,9 @@ export const useGetListPersons = () => {
               (person) => (person.id = personData.id)
             );
             newPersonData[personIndex] = personData;
-            setListPersons(newPersonData);
+            setListPersons(
+              orderBy(newPersonData, (person) => person.blameCount, "desc")
+            );
           }
 
           console.debug("[Subscribe Person collection] => ", {

@@ -12,7 +12,11 @@ export const useCreatePerson = () => {
   const handleCreateNewPerson = async (person: PersonData) => {
     setIsLoading(true);
     try {
-      await firestorePersonCollection.add({ ...person, id: nanoid() });
+      const personId = nanoid();
+      await firestorePersonCollection
+        .doc(personId)
+        .set({ ...person, id: personId });
+
       toast({
         status: "success",
         description: "create an imagine person completed",
