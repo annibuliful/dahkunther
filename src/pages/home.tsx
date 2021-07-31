@@ -11,64 +11,34 @@ import {
   Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useState } from "react";
+
 import { useHistory } from "react-router-dom";
 import { IPerson } from "../@types";
+import { LoadingSpinner } from "../components/common/LoadingSpinner";
 import { SelectedPersonCard } from "../components/common/SelectedPersonCard";
 import { AddPersonForm } from "../components/form/addPerson";
+import { Routes } from "../constants/routes";
 import { useGetListPersons } from "../hooks/useGetListPersons";
-
-const DEFAULT_VALUE: IPerson = {
-  id: null,
-  name: null,
-  blameCount: 0,
-};
-
-const mockListPerson: IPerson[] = [
-  {
-    id: "1",
-    name: "ประยวนหัวครุท",
-    blameCount: 100,
-    image:
-      "https://static.thairath.co.th/media/dFQROr7oWzulq5FZWt5uOWxNqVgnUIRnnhFngXa2ttHqDnSclT4eKMvFn6UPjnX1dZU.jpg",
-  },
-  {
-    id: "2",
-    name: "อนุทน ทนมานานละ",
-    blameCount: 100,
-  },
-  {
-    id: "3",
-    name: "ไม่รู้ๆ รู้อะไรบ้างมั๊ย",
-    blameCount: 100,
-  },
-];
 
 interface IListSelectPersonsProps {
   listPersons: IPerson[];
-  onSelectPerson: (id: IPerson["id"]) => void;
-  selectedPerson: IPerson;
 }
 
-const ListSelectPersons = ({
-  onSelectPerson,
-  listPersons,
-  selectedPerson,
-}: IListSelectPersonsProps) => {
+const ListSelectPersons = ({ listPersons }: IListSelectPersonsProps) => {
+  const router = useHistory();
+
   return (
-    <Flex justifyContent="space-evenly" alignItems="center">
+    <Flex justifyContent="space-evenly" alignItems="center" flexWrap="wrap">
       {listPersons.map((person) => {
-        const isSelected = selectedPerson.id === person.id;
         return (
           <SelectedPersonCard
             width="25%"
             key={person.id}
-            onSelectBox={onSelectPerson}
+            onSelectBox={() => router.push(`${Routes.PERSON}/${person.id}`)}
             name={person.name as string}
             image={person.image}
             id={person.id as string}
             blameCount={person.blameCount}
-            isSelected={isSelected}
           />
         );
       })}
@@ -82,22 +52,8 @@ export const HomePage = () => {
     onOpen: handleOpenModal,
     isOpen,
   } = useDisclosure();
-  const [selectedPerson, setSelectedPerson] = useState<IPerson>(DEFAULT_VALUE);
 
   const { listPersons, isLoading } = useGetListPersons();
-  console.log("listPersons", listPersons);
-  const onSelectPerson = (id: IPerson["id"]) => {
-    // deselect person
-    if (id === selectedPerson.id) {
-      setSelectedPerson(DEFAULT_VALUE);
-      return;
-    }
-
-    const selectedPersonInfo = mockListPerson.find(
-      (person) => person.id === id
-    );
-    setSelectedPerson(selectedPersonInfo ?? DEFAULT_VALUE);
-  };
 
   return (
     <Box mt={4}>
@@ -121,13 +77,9 @@ export const HomePage = () => {
       </Button>
 
       {isLoading ? (
-        <Spinner display="block" mx="auto" />
+        <LoadingSpinner />
       ) : (
-        <ListSelectPersons
-          listPersons={listPersons}
-          onSelectPerson={onSelectPerson}
-          selectedPerson={selectedPerson}
-        />
+        <ListSelectPersons listPersons={listPersons} />
       )}
     </Box>
   );
