@@ -5,6 +5,7 @@ import { StoragePath } from "../../constants";
 import { useCreatePerson } from "../../hooks/useCreatePerson";
 import { useUploadImage } from "../../hooks/useUploadImage";
 import { MdPhotoCamera } from "react-icons/md";
+import { UploadInput } from "../common/uploadInput";
 
 interface IAddPersonFormProps {
   onTakeActionAfterCreate: (data: PersonData) => void;
@@ -58,27 +59,7 @@ export const AddPersonForm = ({
         size="lg"
       />
 
-      <Box my={4}>
-        <label htmlFor="upload" style={{ cursor: "pointer" }}>
-          <Center
-            width="100%"
-            style={{
-              padding: "10px",
-              width: "100%",
-              color: "#113476",
-              cursor: "pointer",
-            }}
-          >
-            <Input
-              type="file"
-              onChange={handleChangePersonImage}
-              id="upload"
-              hidden
-            />
-            <Icon as={MdPhotoCamera} w={8} h={8} />
-          </Center>
-        </label>
-      </Box>
+      <UploadInput handleChangeUploadImage={handleChangePersonImage} />
       <Input onChange={handleChangePersonName} mt={4} placeholder="name" />
       <Button
         isLoading={isLoading}
