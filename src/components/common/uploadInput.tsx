@@ -4,8 +4,12 @@ import { MdPhotoCamera } from "react-icons/md";
 
 interface IUploadInputProps {
   handleChangeUploadImage: (e: ChangeEvent<HTMLInputElement>) => void;
+  isMultiple?: boolean;
 }
-export const UploadInput = ({ handleChangeUploadImage }: IUploadInputProps) => {
+export const UploadInput = ({
+  handleChangeUploadImage,
+  isMultiple = false,
+}: IUploadInputProps) => {
   return (
     <Box my={4}>
       <label htmlFor="upload" style={{ cursor: "pointer" }}>
@@ -23,6 +27,7 @@ export const UploadInput = ({ handleChangeUploadImage }: IUploadInputProps) => {
             onChange={handleChangeUploadImage}
             id="upload"
             hidden
+            multiple={isMultiple}
           />
           <Icon as={MdPhotoCamera} w={8} h={8} />
         </Center>
