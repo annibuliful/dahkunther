@@ -11,7 +11,6 @@ export const useGetListPersons = () => {
   const [error, setError] = useState();
 
   const handleGetListPersons = async () => {
-    setIsLoading(true);
     try {
       const listPersonsData: IPerson[] = [];
       const callFirestore = await firestorePersonCollection.get();

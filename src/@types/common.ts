@@ -10,4 +10,13 @@ export interface IPerson {
   blameCount: number;
 }
 
+export interface IBlameMessage {
+  id: string;
+  personId: string;
+  imagesUrl: string[];
+  message: string;
+  voiceUrl: string;
+}
+
 export type PersonData = Omit<IPerson, "id">;
+export type BlameMessageData = Omit<IBlameMessage, "id">;

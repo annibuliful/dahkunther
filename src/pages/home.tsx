@@ -13,8 +13,8 @@ import {
 
 import { useHistory } from "react-router-dom";
 import { IPerson } from "../@types";
-import { LoadingSpinner } from "../components/common/LoadingSpinner";
-import { SelectedPersonCard } from "../components/common/SelectedPersonCard";
+import { LoadingSpinner } from "../components/common/loadingSpinner";
+import { SelectedPersonCard } from "../components/common/selectedPersonCard";
 import { AddPersonForm } from "../components/form/addPerson";
 import { Routes } from "../constants/routes";
 import { useGetListPersons } from "../hooks/useGetListPersons";

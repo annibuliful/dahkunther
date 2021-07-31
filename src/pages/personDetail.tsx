@@ -1,7 +1,7 @@
 import { Box, Button, Divider } from "@chakra-ui/react";
 import { useHistory, useParams } from "react-router-dom";
-import { LoadingSpinner } from "../components/common/LoadingSpinner";
-import { PersonCard } from "../components/common/PersonCard";
+import { LoadingSpinner } from "../components/common/loadingSpinner";
+import { PersonCard } from "../components/common/personCard";
 import { Routes } from "../constants/routes";
 import { useGetPersonDetail } from "../hooks/useGetPersonDetail";
 
