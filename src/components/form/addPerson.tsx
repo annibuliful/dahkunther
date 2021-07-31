@@ -1,10 +1,9 @@
-import { Box, Input, Avatar, Button, Center, Icon } from "@chakra-ui/react";
+import { Box, Input, Avatar, Button } from "@chakra-ui/react";
 import { ChangeEvent, useState } from "react";
 import { PersonData } from "../../@types";
 import { StoragePath } from "../../constants";
 import { useCreatePerson } from "../../hooks/useCreatePerson";
 import { useUploadImage } from "../../hooks/useUploadImage";
-import { MdPhotoCamera } from "react-icons/md";
 import { UploadInput } from "../common/uploadInput";
 
 interface IAddPersonFormProps {
