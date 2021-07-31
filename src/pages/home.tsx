@@ -8,7 +8,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
 
@@ -32,7 +31,7 @@ const ListSelectPersons = ({ listPersons }: IListSelectPersonsProps) => {
       {listPersons.map((person) => {
         return (
           <SelectedPersonCard
-            width="25%"
+            width={["100%", "25%"]}
             key={person.id}
             onSelectBox={() => router.push(`${Routes.PERSON}/${person.id}`)}
             name={person.name as string}
