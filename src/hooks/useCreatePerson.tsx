@@ -15,13 +15,13 @@ export const useCreatePerson = () => {
       await firestorePersonCollection.add({ ...person, id: nanoid() });
       toast({
         status: "success",
-        description: "สร้างคนในจิตนาการเอาไว้ด่าสำเร็จ",
+        description: "create an imagine person completed",
       });
     } catch (e) {
       console.error("[Create person] => ", e);
       toast({
         status: "error",
-        description: "สร้างคนในจิตนาการเอาไว้ด่าไม่สำเร็จ ลองใหม่อีกครั้ง",
+        description: "create an imaging person failed, please try again ",
       });
     } finally {
       setIsLoading(false);

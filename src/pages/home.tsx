@@ -1,8 +1,21 @@
-import { Box, Button, SimpleGrid } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  SimpleGrid,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { IPerson } from "../@types";
 import { SelectedPersonCard } from "../components/common/SelectedPersonCard";
+import { AddPersonForm } from "../components/form/addPerson";
 import { ROUTES } from "../constants/routes";
 
 const DEFAULT_VALUE: IPerson = {
@@ -63,8 +76,13 @@ const ListSelectPersons = ({
 };
 
 export const HomePage = () => {
+  const {
+    onClose: handleCloseModal,
+    onOpen: handleOpenModal,
+    isOpen,
+  } = useDisclosure();
   const [selectedPerson, setSelectedPerson] = useState<IPerson>(DEFAULT_VALUE);
-  const router = useHistory();
+
   const onSelectPerson = (id: IPerson["id"]) => {
     // deselect person
     if (id === selectedPerson.id) {
@@ -78,11 +96,24 @@ export const HomePage = () => {
     setSelectedPerson(selectedPersonInfo ?? DEFAULT_VALUE);
   };
 
-  const handleClikToAddPersonPage = () => router.push(ROUTES.ADD_PERSON);
-
   return (
     <Box mt={4}>
-      <Button variant="primary" onClick={handleClikToAddPersonPage}>
+      <Modal isOpen={isOpen} onClose={handleCloseModal}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create new person</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <AddPersonForm onTakeActionAfterCreate={handleCloseModal} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+      <Button
+        variant="primary"
+        onClick={handleOpenModal}
+        display="block"
+        mx="auto"
+      >
         Create new person
       </Button>
       <ListSelectPersons
