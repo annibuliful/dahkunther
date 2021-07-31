@@ -19,7 +19,7 @@ export const useGetListPersons = () => {
       });
       setListPersons(listPersonsData);
     } catch (e) {
-      console.error(`[Get List Person Hook] => ${e}`);
+      console.error("[Get List Person Hook] => ", e);
       setError(e);
     } finally {
       setIsLoading(false);
