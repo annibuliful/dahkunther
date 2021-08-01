@@ -9,17 +9,12 @@ export const useVoiceRecorder = () => {
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder>();
   const [voiceChunks, setVoiceChunks] = useState<Blob[]>([]);
   const [audioFile, setAudioFile] = useState<File>();
+  const [mediaStream, setMediaStream] = useState<MediaStream>();
   const [isRecording, setIsRecording] = useState(false);
   const [isSupportVoiceRecoreder, setIsSupportVoiceRecoreder] = useState(false);
   const toast = useToast();
 
   const handleRecordVoice = async () => {
-    navigator.getUserMedia =
-      navigator.getUserMedia ||
-      navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia ||
-      navigator.msGetUserMedia;
-
     if (!navigator.mediaDevices) {
       setIsSupportVoiceRecoreder(true);
       toast({
@@ -29,10 +24,11 @@ export const useVoiceRecorder = () => {
       return;
     }
 
-    const mediaStream = await navigator.mediaDevices.getUserMedia({
+    const _mediaStream = await navigator.mediaDevices.getUserMedia({
       audio: true,
     });
-    const _mediaRecord = new MediaRecorder(mediaStream, {
+    setMediaStream(_mediaStream);
+    const _mediaRecord = new MediaRecorder(_mediaStream, {
       mimeType: audioType,
     });
     setMediaRecorder(_mediaRecord);
@@ -41,11 +37,14 @@ export const useVoiceRecorder = () => {
         setVoiceChunks((prev) => [...prev, e.data]);
       }
     };
+    return mediaStream;
   };
+
   const saveAudio = useCallback(() => {
     const blob = new Blob(voiceChunks, { type: audioType });
 
-    const _audioFile = new File([blob], `${nanoid()}.webm`, {
+    const filename = `${nanoid()}.webm`;
+    const _audioFile = new File([blob], filename, {
       type: audioType,
     });
     setAudioFile(_audioFile);
@@ -68,6 +67,10 @@ export const useVoiceRecorder = () => {
 
   useEffect(() => {
     handleRecordVoice();
+
+    return () => {
+      mediaStream?.getTracks().forEach((track) => track.stop());
+    };
   }, []);
 
   return useMemo(

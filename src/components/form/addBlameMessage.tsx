@@ -7,6 +7,7 @@ import { StoragePath } from "../../constants";
 import { useCreateBlameMessage } from "../../hooks/useCreateBlameMessage";
 import { useUploadImage } from "../../hooks/useUploadImage";
 import { UploadInput } from "../common/uploadInput";
+import { VoiceRecorderInput } from "../common/voiceRecorderInput";
 interface IAddBlameMessageFormProps {
   onTakeActionAfterCreate: (data: BlameMessageData) => void;
   personId: string;
@@ -16,11 +17,19 @@ export const BlameMessageForm = ({
   onTakeActionAfterCreate,
 }: IAddBlameMessageFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [audioFile, setAudioFile] = useState<File>();
+
   const { handleSetPreviewImages, handleUploadImage, previewImages } =
     useUploadImage({
       storagePath: StoragePath.BLAME_COMMENT,
     });
 
+  const {
+    handleSetPreviewImages: handleSetPreviewAudio,
+    handleUploadImage: handleUploadAudioFile,
+  } = useUploadImage({
+    storagePath: StoragePath.BLAME_COMMENT,
+  });
   const { handleCreateBlameMessage } = useCreateBlameMessage();
   const [message, setMessage] = useState("");
   const handleChangeBlameImages = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,15 +42,20 @@ export const BlameMessageForm = ({
     setMessage(e.target.value);
   };
 
+  const handleSaveAudioFile = (file: File) => {
+    handleSetPreviewAudio([file]);
+  };
+
   const handleClickCreate = async () => {
     setIsLoading(true);
 
     const listImagesUrl = await handleUploadImage();
+    const audiFileUrl = (await handleUploadAudioFile())?.[0];
     const blameMessageData: BlameMessageData = {
       message,
       personId,
       imagesUrl: listImagesUrl,
-      voiceUrl: null,
+      voiceUrl: audiFileUrl ? audiFileUrl : null,
     };
 
     await handleCreateBlameMessage(blameMessageData);
@@ -75,6 +89,8 @@ export const BlameMessageForm = ({
         icon={MdPhotoCamera}
         isMultiple={true}
       />
+
+      <VoiceRecorderInput saveAudioFile={handleSaveAudioFile} />
       <Textarea
         placeholder="message"
         onChange={handleChangeMessage}
