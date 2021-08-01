@@ -45,10 +45,6 @@ export const useUploadImage = ({ storagePath }: IuseUploadImageOptions) => {
       const listUrls: string[] = await Promise.all(listGetUrlCall);
       listPublicImageUrl.push(...listUrls);
       setListImagesUrl(listUrls);
-      toast({
-        status: "success",
-        description: "upload file completed",
-      });
     } catch (e) {
       setError(e);
       console.error("[Upload image] => ", e);
