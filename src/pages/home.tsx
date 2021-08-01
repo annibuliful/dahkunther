@@ -9,14 +9,18 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  Text,
+  Divider,
 } from "@chakra-ui/react";
 
 import { useHistory } from "react-router-dom";
 import { IPerson } from "../@types";
 import { LoadingSpinner } from "../components/common/LoadingSpinner";
+import { MessageCard } from "../components/common/MessageCard";
 import { SelectedPersonCard } from "../components/common/SelectedPersonCard";
 import { AddPersonForm } from "../components/form/addPerson";
 import { Routes } from "../constants/routes";
+import { useGetAllBlameMessages } from "../hooks/useGetAllBlameMessage";
 import { useGetListPersons } from "../hooks/useGetListPersons";
 
 interface IListSelectPersonsProps {
@@ -28,9 +32,10 @@ const ListSelectPersons = ({ listPersons }: IListSelectPersonsProps) => {
 
   return (
     <Flex justifyContent="space-evenly" alignItems="center" flexWrap="wrap">
-      {listPersons.map((person) => {
+      {listPersons.map((person, index) => {
         return (
           <SelectedPersonCard
+            ranking={index + 1}
             width={["100%", "25%"]}
             key={person.id}
             onSelectBox={() => router.push(`${Routes.PERSON}/${person.id}`)}
@@ -52,6 +57,7 @@ export const HomePage = () => {
     isOpen,
   } = useDisclosure();
 
+  const { listMessages } = useGetAllBlameMessages();
   const { listPersons, isLoading } = useGetListPersons();
 
   return (
@@ -72,7 +78,7 @@ export const HomePage = () => {
         display="block"
         mx="auto"
       >
-        Create new person
+        สร้างคนในจินตนาการ
       </Button>
 
       {isLoading ? (
@@ -80,6 +86,16 @@ export const HomePage = () => {
       ) : (
         <ListSelectPersons listPersons={listPersons} />
       )}
+      <Divider />
+      <Text my={6} textAlign="center" fontSize="3xl">
+        คำด่า real time
+      </Text>
+
+      <Flex flexWrap="wrap">
+        {listMessages.map((message) => (
+          <MessageCard {...message} />
+        ))}
+      </Flex>
     </Box>
   );
 };

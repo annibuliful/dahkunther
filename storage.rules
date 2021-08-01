@@ -1,10 +1,10 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    match /blame-comment-image{allPaths=**} {
+    match /blame-comment-image/{allPaths=**} {
       allow read, write;
     }
-    match /person-image{allPaths=**} {
+    match /person-image/{allPaths=**} {
       allow read, write;
     }
   }

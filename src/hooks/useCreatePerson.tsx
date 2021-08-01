@@ -20,14 +20,14 @@ export const useCreatePerson = () => {
 
       toast({
         status: "success",
-        description: "create an imagine person completed",
+        description: "สร้างบุคคลในจินตนาการสำเร็จ",
       });
     } catch (e) {
       setError(e);
       console.error("[Create person] => ", e);
       toast({
         status: "error",
-        description: "create an imaging person failed, please try again ",
+        description: "สร้างไม่ได้ง่ะ ลองใหม่นะ",
       });
     } finally {
       setIsLoading(false);

@@ -69,7 +69,7 @@ export const PersonDetailPage = () => {
         display="block"
         mx="auto"
       >
-        Create new blame
+        ส่งคำด่า
       </Button>
 
       <Flex flexWrap="wrap">

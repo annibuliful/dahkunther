@@ -27,7 +27,7 @@ export const useCreateBlameMessage = () => {
         .update({ blameCount: increment });
       toast({
         status: "success",
-        description: "create a blame message completed",
+        description: "ส่งคำด่าสำเร็จ",
       });
     } catch (e) {
       setError(e);

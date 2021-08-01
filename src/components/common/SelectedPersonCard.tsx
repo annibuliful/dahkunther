@@ -6,14 +6,17 @@ import { BorderColor, TextColor } from "../../@types/style";
 interface ISelectBoxProps extends IPerson {
   onSelectBox: (value: ISelectValue["value"]) => void;
   isSelected?: boolean;
+  ranking: number;
 }
 
+const LIMIT_SHOW_RANK = 3;
 export const SelectedPersonCard = ({
   isSelected = false,
   id,
   name,
   blameCount,
   image,
+  ranking,
   onSelectBox,
   ...boxStyle
 }: ISelectBoxProps & BoxProps) => {
@@ -25,6 +28,7 @@ export const SelectedPersonCard = ({
   const nameColor: TextColor = isSelected ? "black" : "gray.600";
   const blameCountColor: TextColor = isSelected ? "gray.500" : "gray.400";
 
+  const isShowRank = ranking <= LIMIT_SHOW_RANK;
   return (
     <Box
       {...boxStyle}
@@ -35,7 +39,21 @@ export const SelectedPersonCard = ({
       border="2px solid"
       borderColor={borderColor}
       onClick={handleClickBox}
+      position="relative"
     >
+      {isShowRank && (
+        <Box
+          position="absolute"
+          border="1px solid"
+          right="20px"
+          top="10px"
+          borderRadius="50%"
+          borderColor="gray.600"
+          p={2}
+        >
+          {ranking}
+        </Box>
+      )}
       <Avatar
         name={name as string}
         src={image}
