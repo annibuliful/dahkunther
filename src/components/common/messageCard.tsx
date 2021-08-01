@@ -19,7 +19,7 @@ const ListImages = ({ listImages }: IListImagesProps) => {
   );
 };
 
-export const MessageCard = ({ imagesUrl, message }: IProps) => {
+export const MessageCard = ({ imagesUrl, message, voiceUrl }: IProps) => {
   return (
     <Box
       w={["100%", "30%"]}
@@ -30,6 +30,14 @@ export const MessageCard = ({ imagesUrl, message }: IProps) => {
       borderRadius="10px"
     >
       <ListImages listImages={imagesUrl} />
+      {voiceUrl && (
+        <Box mx="auto">
+          <audio controls>
+            <source src={voiceUrl} type="audio/webm" />
+            Your browser does not support the audio element.
+          </audio>
+        </Box>
+      )}
       <Text textAlign="center" fontSize="4xl">
         {message}
       </Text>
