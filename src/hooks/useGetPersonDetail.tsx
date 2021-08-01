@@ -51,9 +51,34 @@ export const useGetPersonDetail = ({
     }
   };
 
+  const handleObservePersonDetail = () => {
+    const unsubscribe = firestorePersonCollection
+      .where("id", "==", personId)
+      .onSnapshot((querySnapshot) => {
+        querySnapshot.docChanges().forEach((docChange) => {
+          const personData = docChange.doc.data() as IPerson;
+          const changeType = docChange.type;
+
+          if (changeType === "modified") {
+            setPersonInfo(personData);
+          }
+
+          console.debug("[Subscribe Person collection] => ", {
+            changeType,
+            personData,
+          });
+        });
+      });
+    return unsubscribe;
+  };
+
   useEffect(() => {
     if (!personId) return;
     handleGetPersonDetail();
+    const unsub = handleObservePersonDetail();
+    return () => {
+      unsub();
+    };
   }, [personId]);
   return useMemo(
     () => ({ personInfo, isLoading, error }),
