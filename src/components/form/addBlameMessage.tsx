@@ -17,7 +17,6 @@ export const BlameMessageForm = ({
   onTakeActionAfterCreate,
 }: IAddBlameMessageFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [audioFile, setAudioFile] = useState<File>();
 
   const { handleSetPreviewImages, handleUploadImage, previewImages } =
     useUploadImage({

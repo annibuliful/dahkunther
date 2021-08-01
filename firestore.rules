@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /person/{nestedPath=**} {
+      allow read, write
+    }
+    match /blame-comment/{nestedPath=**}{
+      allow read, write
+    }
+  }
+}
