@@ -5,6 +5,7 @@ import { useState } from "react";
 import { IBlameMessage } from "../@types";
 import { firestoreBlameColletion } from "../services";
 
+const LIMIT_ITEM = 20;
 export const useGetAllBlameMessages = () => {
   const [listMessages, setListMessages] = useState<IBlameMessage[]>([]);
 
@@ -14,11 +15,18 @@ export const useGetAllBlameMessages = () => {
         const messageData = docChange.doc.data() as IBlameMessage;
         const changeType = docChange.type;
 
-        if (changeType === "added") {
-          setListMessages((prev) =>
-            uniqBy([messageData, ...prev], (message) => message.id)
-          );
+        if (changeType !== "added") return;
+
+        const newList = uniqBy(
+          [messageData, ...listMessages],
+          (message) => message.id
+        );
+
+        if (newList.length > LIMIT_ITEM + 1) {
+          newList.pop();
         }
+
+        setListMessages(newList);
 
         console.debug("[Subscribe Message collection] => ", {
           changeType,
