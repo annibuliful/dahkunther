@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, Input, Textarea } from "@chakra-ui/react";
+import { Avatar, Box, Button, Flex, Textarea } from "@chakra-ui/react";
 import { useState } from "react";
 import { ChangeEvent } from "react";
 import { MdPhotoCamera } from "react-icons/md";
