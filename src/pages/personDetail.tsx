@@ -9,11 +9,10 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
-  Text,
   Flex,
 } from "@chakra-ui/react";
 import { useHistory, useParams } from "react-router-dom";
-import { LoadingSpinner } from "../components/common/loadingSpinner";
+import { LoadingSpinner } from "../components/common/LoadingSpinner";
 import { MessageCard } from "../components/common/messageCard";
 import { PersonCard } from "../components/common/personCard";
 import { BlameMessageForm } from "../components/form/addBlameMessage";
