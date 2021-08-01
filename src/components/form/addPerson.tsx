@@ -5,7 +5,7 @@ import { PersonData } from "../../@types";
 import { StoragePath } from "../../constants";
 import { useCreatePerson } from "../../hooks/useCreatePerson";
 import { useUploadImage } from "../../hooks/useUploadImage";
-import { UploadInput } from "../common/uploadInput";
+import { UploadInput } from "../common/UploadInput";
 
 interface IAddPersonFormProps {
   onTakeActionAfterCreate: (data: PersonData) => void;

@@ -6,8 +6,8 @@ import { BlameMessageData } from "../../@types";
 import { StoragePath } from "../../constants";
 import { useCreateBlameMessage } from "../../hooks/useCreateBlameMessage";
 import { useUploadImage } from "../../hooks/useUploadImage";
-import { UploadInput } from "../common/uploadInput";
-import { VoiceRecorderInput } from "../common/voiceRecorderInput";
+import { UploadInput } from "../common/UploadInput";
+import { VoiceRecorderInput } from "../common/VoiceRecorderInput";
 interface IAddBlameMessageFormProps {
   onTakeActionAfterCreate: (data: BlameMessageData) => void;
   personId: string;
