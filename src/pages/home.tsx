@@ -72,6 +72,9 @@ export const HomePage = () => {
           </ModalBody>
         </ModalContent>
       </Modal>
+      <Text fontSize="5xl" textAlign="center" fontWeight="bold">
+        ด่าอย่างสร้างสรรค์เพื่อสรรสร้างสิ่งใหม่ๆ
+      </Text>
       <Button
         variant="primary"
         onClick={handleOpenModal}
