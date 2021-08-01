@@ -3,7 +3,11 @@ import { nanoid } from "nanoid";
 import { useMemo } from "react";
 import { useState } from "react";
 import { BlameMessageData } from "../@types";
-import { firestoreBlameColletion } from "../services";
+import {
+  firestore,
+  firestoreBlameColletion,
+  firestorePersonCollection,
+} from "../services";
 
 export const useCreateBlameMessage = () => {
   const toast = useToast();
@@ -17,6 +21,10 @@ export const useCreateBlameMessage = () => {
       await firestoreBlameColletion
         .doc(blamessageId)
         .set({ id: blamessageId, ...blameData });
+      const increment = firestore.FieldValue.increment(1);
+      await firestorePersonCollection
+        .doc(blameData.personId)
+        .update({ blameCount: increment });
       toast({
         status: "success",
         description: "create a blame message completed",
