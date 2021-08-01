@@ -5,7 +5,6 @@ import { useState } from "react";
 import { IBlameMessage } from "../@types";
 import { firestoreBlameColletion } from "../services";
 
-const LIMIT_ITEM = 20;
 export const useGetAllBlameMessages = () => {
   const [listMessages, setListMessages] = useState<IBlameMessage[]>([]);
 
@@ -15,9 +14,9 @@ export const useGetAllBlameMessages = () => {
         const messageData = docChange.doc.data() as IBlameMessage;
         const changeType = docChange.type;
 
-        if (changeType !== "added") return;
-
-        setListMessages((prev) => [messageData, ...listMessages]);
+        if (changeType === "added") {
+          setListMessages((prev) => [messageData, ...prev]);
+        }
 
         console.debug("[Subscribe Message collection] => ", {
           changeType,
