@@ -17,16 +17,7 @@ export const useGetAllBlameMessages = () => {
 
         if (changeType !== "added") return;
 
-        const newList = uniqBy(
-          [messageData, ...listMessages],
-          (message) => message.id
-        );
-
-        if (newList.length > LIMIT_ITEM + 1) {
-          newList.pop();
-        }
-
-        setListMessages(newList);
+        setListMessages((prev) => [messageData, ...listMessages]);
 
         console.debug("[Subscribe Message collection] => ", {
           changeType,
