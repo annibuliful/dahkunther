@@ -1,4 +1,4 @@
-import { Box, Button, Input } from "@chakra-ui/react";
+import { Avatar, Box, Button, Flex, Input, Textarea } from "@chakra-ui/react";
 import { useState } from "react";
 import { ChangeEvent } from "react";
 import { MdPhotoCamera } from "react-icons/md";
@@ -16,9 +16,10 @@ export const BlameMessageForm = ({
   onTakeActionAfterCreate,
 }: IAddBlameMessageFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const { handleSetPreviewImages, handleUploadImage } = useUploadImage({
-    storagePath: StoragePath.BLAME_COMMENT,
-  });
+  const { handleSetPreviewImages, handleUploadImage, previewImages } =
+    useUploadImage({
+      storagePath: StoragePath.BLAME_COMMENT,
+    });
 
   const { handleCreateBlameMessage } = useCreateBlameMessage();
   const [message, setMessage] = useState("");
@@ -28,7 +29,7 @@ export const BlameMessageForm = ({
     handleSetPreviewImages(Array.from(e.target.files));
   };
 
-  const handleChangeMessage = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
   };
 
@@ -53,11 +54,28 @@ export const BlameMessageForm = ({
 
   return (
     <Box>
+      <Flex flexWrap="wrap">
+        {previewImages.map((image, index) => {
+          return (
+            <Avatar
+              key={index.toString()}
+              mx={4}
+              w={["50%", "20%"]}
+              name={message}
+              src={image}
+              my={4}
+              size="lg"
+            />
+          );
+        })}
+      </Flex>
+
       <UploadInput
         handleChangeUploadImage={handleChangeBlameImages}
         icon={MdPhotoCamera}
+        isMultiple={true}
       />
-      <Input
+      <Textarea
         placeholder="message"
         onChange={handleChangeMessage}
         value={message}
